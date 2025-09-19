@@ -1,7 +1,7 @@
-// outputNode.js
-
+// src/nodes/outputNode.js
 import React, { useState } from 'react';
 import { BaseNode, createHandle } from './BaseNode';
+import { FormField, Label, Input, Select } from '../styles/StyledComponents';
 
 export const OutputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
@@ -25,28 +25,31 @@ export const OutputNode = ({ id, data }) => {
       data={data}
       title="Output"
       handles={handles}
-      style={{ backgroundColor: '#fff8e1' }}
+      nodeType="output"
+      icon="📤"
+      height={100}
     >
-      <label style={{ display: 'block', marginBottom: '4px' }}>
-        Name:
-        <input 
+      <FormField>
+        <Label>Output Name</Label>
+        <Input 
           type="text" 
           value={currName} 
           onChange={handleNameChange}
-          style={{ marginLeft: '4px', fontSize: '12px' }}
+          placeholder="Enter output name"
         />
-      </label>
-      <label style={{ display: 'block' }}>
-        Type:
-        <select 
+      </FormField>
+      <FormField>
+        <Label>Output Type</Label>
+        <Select 
           value={outputType} 
           onChange={handleTypeChange}
-          style={{ marginLeft: '4px', fontSize: '12px' }}
         >
           <option value="Text">Text</option>
-          <option value="File">Image</option>
-        </select>
-      </label>
+          <option value="File">File</option>
+          <option value="JSON">JSON</option>
+          <option value="Image">Image</option>
+        </Select>
+      </FormField>
     </BaseNode>
   );
 };

@@ -1,6 +1,7 @@
-// inputNode.js - Refactored using BaseNode
+// src/nodes/inputNode.js
 import React, { useState } from 'react';
 import { BaseNode, createHandle } from './BaseNode';
+import { FormField, Label, Input, Select } from '../styles/StyledComponents';
 
 export const InputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
@@ -24,27 +25,30 @@ export const InputNode = ({ id, data }) => {
       data={data}
       title="Input"
       handles={handles}
+      nodeType="input"
+      icon="📥"
+      height={100}
     >
-      <label style={{ display: 'block', marginBottom: '4px' }}>
-        Name:
-        <input 
+      <FormField>
+        <Label>Variable Name</Label>
+        <Input 
           type="text" 
           value={currName} 
           onChange={handleNameChange}
-          style={{ marginLeft: '4px', fontSize: '12px' }}
+          placeholder="Enter variable name"
         />
-      </label>
-      <label style={{ display: 'block' }}>
-        Type:
-        <select 
+      </FormField>
+      <FormField>
+        <Label>Input Type</Label>
+        <Select 
           value={inputType} 
           onChange={handleTypeChange}
-          style={{ marginLeft: '4px', fontSize: '12px' }}
         >
           <option value="Text">Text</option>
           <option value="File">File</option>
-        </select>
-      </label>
+          <option value="Number">Number</option>
+        </Select>
+      </FormField>
     </BaseNode>
   );
 };

@@ -1,7 +1,4 @@
-// ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
-
+// src/ui.js
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
@@ -15,7 +12,8 @@ import { MathNode } from './nodes/mathNode';
 import { ConditionalNode } from './nodes/conditionalNode';
 import { DatabaseNode } from './nodes/databaseNode';
 import { TransformNode } from './nodes/transformNode';
-
+import { CanvasContainer } from './styles/StyledComponents';
+import { theme } from './styles/theme';
 
 import 'reactflow/dist/style.css';
 
@@ -42,6 +40,21 @@ const selector = (state) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
 });
+
+const defaultEdgeOptions = {
+  type: 'smoothstep',
+  animated: true,
+  style: {
+    stroke: theme.colors.primary[400],
+    strokeWidth: 2,
+  },
+  markerEnd: {
+    type: 'arrow',
+    width: 20,
+    height: 20,
+    color: theme.colors.primary[400],
+  },
+};
 
 export const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
@@ -91,7 +104,7 @@ export const PipelineUI = () => {
             addNode(newNode);
           }
         },
-        [reactFlowInstance]
+        [reactFlowInstance, getNodeID, addNode]
     );
 
     const onDragOver = useCallback((event) => {
@@ -100,27 +113,52 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                onInit={setReactFlowInstance}
-                nodeTypes={nodeTypes}
-                proOptions={proOptions}
-                snapGrid={[gridSize, gridSize]}
-                connectionLineType='smoothstep'
-            >
-                <Background color="#aaa" gap={gridSize} />
-                <Controls />
-                <MiniMap />
-            </ReactFlow>
-        </div>
-        </>
+        <CanvasContainer>
+            <div ref={reactFlowWrapper} style={{width: '100%', height: '100%'}}>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    onDrop={onDrop}
+                    onDragOver={onDragOver}
+                    onInit={setReactFlowInstance}
+                    nodeTypes={nodeTypes}
+                    proOptions={proOptions}
+                    snapGrid={[gridSize, gridSize]}
+                    connectionLineType='smoothstep'
+                    defaultEdgeOptions={defaultEdgeOptions}
+                    fitView
+                    fitViewOptions={{ padding: 0.2 }}
+                    minZoom={0.2}
+                    maxZoom={2}
+                >
+                    <Background 
+                      color={theme.colors.dark.border} 
+                      gap={gridSize} 
+                      size={1}
+                      style={{ backgroundColor: theme.colors.dark.bg }}
+                    />
+                    <Controls 
+                      style={{
+                        background: theme.colors.dark.elevated,
+                        border: `1px solid ${theme.colors.dark.border}`,
+                      }}
+                    />
+                    <MiniMap 
+                      style={{
+                        background: theme.colors.dark.elevated,
+                        border: `1px solid ${theme.colors.dark.border}`,
+                      }}
+                      maskColor={`${theme.colors.dark.surface}80`}
+                      nodeColor={(node) => {
+                        const nodeType = node.type.replace('custom', '').toLowerCase();
+                        return theme.colors.nodeTypes[nodeType] || theme.colors.primary[400];
+                      }}
+                    />
+                </ReactFlow>
+            </div>
+        </CanvasContainer>
     )
-}
+};

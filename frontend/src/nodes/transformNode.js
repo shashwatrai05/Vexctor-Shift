@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BaseNode, createHandle, HANDLE_PRESETS } from './BaseNode';
+import { BaseNode, HANDLE_PRESETS } from './BaseNode';
+import { FormField, Label, Select } from '../styles/StyledComponents';
 
 export const TransformNode = ({ id, data }) => {
   const [inputFormat, setInputFormat] = useState(data?.inputFormat || 'json');
@@ -11,35 +12,32 @@ export const TransformNode = ({ id, data }) => {
       data={data}
       title="Transform"
       handles={HANDLE_PRESETS.inputOutput(id)}
-      height={100}
-      style={{ backgroundColor: '#fce4ec' }}
+      nodeType="transform"
+      icon="🔄"
+      height={120}
     >
-      <div style={{ fontSize: '12px' }}>
-        <label style={{ display: 'block', marginBottom: '2px' }}>
-          From:
-          <select 
-            value={inputFormat} 
-            onChange={(e) => setInputFormat(e.target.value)}
-            style={{ marginLeft: '4px', fontSize: '10px' }}
-          >
-            <option value="json">JSON</option>
-            <option value="xml">XML</option>
-            <option value="csv">CSV</option>
-          </select>
-        </label>
-        <label style={{ display: 'block' }}>
-          To:
-          <select 
-            value={outputFormat} 
-            onChange={(e) => setOutputFormat(e.target.value)}
-            style={{ marginLeft: '4px', fontSize: '10px' }}
-          >
-            <option value="json">JSON</option>
-            <option value="xml">XML</option>
-            <option value="csv">CSV</option>
-          </select>
-        </label>
-      </div>
+      <FormField>
+        <Label>From</Label>
+        <Select 
+          value={inputFormat} 
+          onChange={(e) => setInputFormat(e.target.value)}
+        >
+          <option value="json">JSON</option>
+          <option value="xml">XML</option>
+          <option value="csv">CSV</option>
+        </Select>
+      </FormField>
+      <FormField>
+        <Label>To</Label>
+        <Select 
+          value={outputFormat} 
+          onChange={(e) => setOutputFormat(e.target.value)}
+        >
+          <option value="json">JSON</option>
+          <option value="xml">XML</option>
+          <option value="csv">CSV</option>
+        </Select>
+      </FormField>
     </BaseNode>
   );
 };

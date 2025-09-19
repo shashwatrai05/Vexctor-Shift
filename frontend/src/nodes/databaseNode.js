@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BaseNode, createHandle, HANDLE_PRESETS } from './BaseNode';
+import { BaseNode, createHandle } from './BaseNode';
+import { FormField, Label, Select, TextArea } from '../styles/StyledComponents';
 
 export const DatabaseNode = ({ id, data }) => {
   const [dbType, setDbType] = useState(data?.dbType || 'mysql');
@@ -16,24 +17,30 @@ export const DatabaseNode = ({ id, data }) => {
       data={data}
       title="Database"
       handles={handles}
-      height={120}
-      style={{ backgroundColor: '#e8f5e8' }}
+      nodeType="database"
+      icon="🗄️"
+      height={140}
     >
-      <select 
-        value={dbType} 
-        onChange={(e) => setDbType(e.target.value)}
-        style={{ width: '100%', marginBottom: '4px', fontSize: '12px' }}
-      >
-        <option value="mysql">MySQL</option>
-        <option value="postgres">PostgreSQL</option>
-        <option value="mongodb">MongoDB</option>
-      </select>
-      <textarea
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="SQL Query"
-        style={{ width: '100%', height: '40px', fontSize: '10px', resize: 'none' }}
-      />
+      <FormField>
+        <Label>DB Type</Label>
+        <Select 
+          value={dbType} 
+          onChange={(e) => setDbType(e.target.value)}
+        >
+          <option value="mysql">MySQL</option>
+          <option value="postgres">PostgreSQL</option>
+          <option value="mongodb">MongoDB</option>
+        </Select>
+      </FormField>
+      <FormField>
+        <Label>Query</Label>
+        <TextArea
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="SQL Query"
+          rows={3}
+        />
+      </FormField>
     </BaseNode>
   );
 };

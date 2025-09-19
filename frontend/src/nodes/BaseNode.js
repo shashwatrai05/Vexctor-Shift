@@ -1,7 +1,14 @@
-// BaseNode.js - Abstract base component for all nodes
-
+// src/nodes/BaseNode.js
 import React from 'react';
 import { Handle, Position } from 'reactflow';
+import { 
+  BaseNodeStyled, 
+  NodeHeader, 
+  NodeTitle, 
+  NodeContent,
+  NodeIcon
+} from '../styles/StyledComponents';
+import { theme } from '../styles/theme';
 
 export const BaseNode = ({ 
   id, 
@@ -11,21 +18,19 @@ export const BaseNode = ({
   handles = [], 
   width = 200, 
   height = 80,
-  style = {},
+  nodeType,
+  icon,
   className = ''
 }) => {
-  const defaultStyle = {
-    width,
-    height,
-    border: '1px solid black',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '8px',
-    ...style
-  };
+  const nodeColor = theme.colors.nodeTypes[nodeType] || theme.colors.primary[400];
 
   return (
-    <div style={defaultStyle} className={className}>
+    <BaseNodeStyled
+      width={width}
+      height={height}
+      nodeColor={nodeColor}
+      className={className}
+    >
       {/* Render input handles (left side) */}
       {handles
         .filter(handle => handle.type === 'target')
@@ -35,19 +40,28 @@ export const BaseNode = ({
             type="target"
             position={Position.Left}
             id={handle.id}
-            style={handle.style || { top: `${(index + 1) * (100 / (handles.filter(h => h.type === 'target').length + 1))}%` }}
+            style={handle.style || { 
+              top: `${(index + 1) * (100 / (handles.filter(h => h.type === 'target').length + 1))}%`,
+              background: theme.colors.dark.surface,
+              border: `2px solid ${nodeColor}`,
+              width: 10,
+              height: 10
+            }}
           />
         ))}
 
-      {/* Node title */}
-      <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-        <span>{title}</span>
-      </div>
+      {/* Node header */}
+      <NodeHeader>
+        <NodeIcon iconColor={nodeColor}>
+          {icon}
+        </NodeIcon>
+        <NodeTitle>{title}</NodeTitle>
+      </NodeHeader>
 
       {/* Node content */}
-      <div>
+      <NodeContent>
         {children}
-      </div>
+      </NodeContent>
 
       {/* Render output handles (right side) */}
       {handles
@@ -58,10 +72,16 @@ export const BaseNode = ({
             type="source"
             position={Position.Right}
             id={handle.id}
-            style={handle.style || { top: `${(index + 1) * (100 / (handles.filter(h => h.type === 'source').length + 1))}%` }}
+            style={handle.style || { 
+              top: `${(index + 1) * (100 / (handles.filter(h => h.type === 'source').length + 1))}%`,
+              background: theme.colors.dark.surface,
+              border: `2px solid ${nodeColor}`,
+              width: 10,
+              height: 10
+            }}
           />
         ))}
-    </div>
+    </BaseNodeStyled>
   );
 };
 

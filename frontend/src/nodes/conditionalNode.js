@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { BaseNode, createHandle, HANDLE_PRESETS } from './BaseNode';
+import { BaseNode, createHandle } from './BaseNode';
+import { FormField, Label, Select } from '../styles/StyledComponents';
 
 export const ConditionalNode = ({ id, data }) => {
   const [condition, setCondition] = useState(data?.condition || 'if');
 
   const handles = [
     createHandle(`${id}-input`, 'target', { top: '50%' }),
-    createHandle(`${id}-true`, 'source', { top: '25%' }),
-    createHandle(`${id}-false`, 'source', { top: '75%' })
+    createHandle(`${id}-true`, 'source', { top: '30%' }),
+    createHandle(`${id}-false`, 'source', { top: '70%' })
   ];
 
   return (
@@ -16,21 +17,24 @@ export const ConditionalNode = ({ id, data }) => {
       data={data}
       title="Conditional"
       handles={handles}
-      height={100}
-      style={{ backgroundColor: '#f3e5f5' }}
+      nodeType="conditional"
+      icon="⚖️"
+      height={120}
     >
-      <select 
-        value={condition} 
-        onChange={(e) => setCondition(e.target.value)}
-        style={{ width: '100%', fontSize: '12px' }}
-      >
-        <option value="if">If condition</option>
-        <option value="switch">Switch case</option>
-        <option value="try">Try-catch</option>
-      </select>
-      <div style={{ fontSize: '10px', marginTop: '4px' }}>
-        <div>✓ True</div>
-        <div>✗ False</div>
+      <FormField>
+        <Label>Condition Type</Label>
+        <Select 
+          value={condition} 
+          onChange={(e) => setCondition(e.target.value)}
+        >
+          <option value="if">If condition</option>
+          <option value="switch">Switch case</option>
+          <option value="try">Try-catch</option>
+        </Select>
+      </FormField>
+      <div style={{ fontSize: '12px', marginTop: '6px' }}>
+        <div>✓ True Path</div>
+        <div>✗ False Path</div>
       </div>
     </BaseNode>
   );

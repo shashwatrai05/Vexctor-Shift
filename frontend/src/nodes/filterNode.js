@@ -1,5 +1,7 @@
+// src/nodes/filterNode.js
 import React, { useState } from 'react';
-import { BaseNode, createHandle, HANDLE_PRESETS } from './BaseNode';
+import { BaseNode, HANDLE_PRESETS } from './BaseNode';
+import { FormField, Label, Select, Input } from '../styles/StyledComponents';
 
 export const FilterNode = ({ id, data }) => {
   const [filterType, setFilterType] = useState(data?.filterType || 'contains');
@@ -11,24 +13,31 @@ export const FilterNode = ({ id, data }) => {
       data={data}
       title="Filter"
       handles={HANDLE_PRESETS.inputOutput(id)}
-      style={{ backgroundColor: '#e3f2fd' }}
+      nodeType="filter"
+      icon="🔍"
+      height={110}
     >
-      <select 
-        value={filterType} 
-        onChange={(e) => setFilterType(e.target.value)}
-        style={{ width: '100%', marginBottom: '4px', fontSize: '12px' }}
-      >
-        <option value="contains">Contains</option>
-        <option value="equals">Equals</option>
-        <option value="greater">Greater than</option>
-      </select>
-      <input
-        type="text"
-        placeholder="Filter value"
-        value={filterValue}
-        onChange={(e) => setFilterValue(e.target.value)}
-        style={{ width: '100%', fontSize: '12px' }}
-      />
+      <FormField>
+        <Label>Filter Type</Label>
+        <Select 
+          value={filterType} 
+          onChange={(e) => setFilterType(e.target.value)}
+        >
+          <option value="contains">Contains</option>
+          <option value="equals">Equals</option>
+          <option value="greater">Greater than</option>
+          <option value="less">Less than</option>
+        </Select>
+      </FormField>
+      <FormField>
+        <Label>Filter Value</Label>
+        <Input
+          type="text"
+          placeholder="Enter filter value"
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        />
+      </FormField>
     </BaseNode>
   );
 };

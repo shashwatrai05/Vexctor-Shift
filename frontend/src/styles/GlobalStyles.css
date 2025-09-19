@@ -1,0 +1,158 @@
+/* src/styles/GlobalStyles.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1b 100%);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a3d;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4d;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background: #0ea5e9;
+  color: white;
+}
+
+/* React Flow custom styles */
+.react-flow__node {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.react-flow__node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px #0ea5e9;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #0ea5e9;
+  background: #1a1a1b;
+  transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+  width: 12px;
+  height: 12px;
+  border-color: #38bdf8;
+  background: #0ea5e9;
+}
+
+.react-flow__handle-connecting {
+  background: #0ea5e9;
+}
+
+.react-flow__edge {
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+.react-flow__edge.selected {
+  stroke: #0ea5e9;
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Controls styling */
+.react-flow__controls {
+  background: #2d2d30;
+  border: 1px solid #3a3a3d;
+  border-radius: 8px;
+}
+
+.react-flow__controls-button {
+  background: #2d2d30;
+  border-color: #3a3a3d;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.react-flow__controls-button:hover {
+  background: #3a3a3d;
+  color: #0ea5e9;
+}
+
+/* Minimap styling */
+.react-flow__minimap {
+  background: #2d2d30;
+  border: 1px solid #3a3a3d;
+  border-radius: 8px;
+}
+
+/* Utility classes */
+.glass-effect {
+  background: rgba(45, 45, 48, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}

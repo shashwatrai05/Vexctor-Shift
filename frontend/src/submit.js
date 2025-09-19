@@ -1,10 +1,11 @@
-// submit.js
+// src/submit.js
+import React from 'react';
+import { SubmitButtonStyled } from './styles/StyledComponents';
 
 export const SubmitButton = () => {
-
-    return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <button type="submit">Submit</button>
-        </div>
-    );
-}
+  return (
+    <SubmitButtonStyled type="submit">
+      🚀 Deploy Pipeline
+    </SubmitButtonStyled>
+  );
+};

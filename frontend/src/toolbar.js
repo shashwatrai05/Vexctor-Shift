@@ -1,28 +1,40 @@
-// toolbar.js
+// src/toolbar.js
+import React from 'react';
+import { DraggableNode } from './draggableNode';
+import { 
+  ToolbarContainer, 
+  ToolbarTitle, 
+  NodeGrid 
+} from './styles/StyledComponents';
+import { theme } from './styles/theme';
 
-import { DraggableNode } from "./draggableNode";
+const nodeConfigs = [
+  { type: 'customInput', label: 'Input', icon: '📥', color: theme.colors.nodeTypes.input },
+  { type: 'llm', label: 'LLM', icon: '🤖', color: theme.colors.nodeTypes.llm },
+  { type: 'customOutput', label: 'Output', icon: '📤', color: theme.colors.nodeTypes.output },
+  { type: 'text', label: 'Text', icon: '📝', color: theme.colors.nodeTypes.text },
+  { type: 'filter', label: 'Filter', icon: '🔍', color: theme.colors.nodeTypes.filter },
+  { type: 'math', label: 'Math', icon: '🧮', color: theme.colors.nodeTypes.math },
+  { type: 'conditional', label: 'If/Else', icon: '🔀', color: theme.colors.nodeTypes.conditional },
+  { type: 'database', label: 'Database', icon: '🗄️', color: theme.colors.nodeTypes.database },
+  { type: 'transform', label: 'Transform', icon: '⚡', color: theme.colors.nodeTypes.transform },
+];
 
 export const PipelineToolbar = () => {
   return (
-    <div style={{ padding: "10px" }}>
-      <div
-        style={{
-          marginTop: "20px",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-        }}
-      >
-        <DraggableNode type="customInput" label="Input" />
-        <DraggableNode type="llm" label="LLM" />
-        <DraggableNode type="customOutput" label="Output" />
-        <DraggableNode type="text" label="Text" />
-        <DraggableNode type="filter" label="Filter" />
-        <DraggableNode type="math" label="Math" />
-        <DraggableNode type="conditional" label="If/Else" />
-        <DraggableNode type="database" label="Database" />
-        <DraggableNode type="transform" label="Transform" />
-      </div>
-    </div>
+    <ToolbarContainer>
+      <ToolbarTitle>Pipeline Components</ToolbarTitle>
+      <NodeGrid>
+        {nodeConfigs.map((config) => (
+          <DraggableNode
+            key={config.type}
+            type={config.type}
+            label={config.label}
+            icon={config.icon}
+            color={config.color}
+          />
+        ))}
+      </NodeGrid>
+    </ToolbarContainer>
   );
 };
